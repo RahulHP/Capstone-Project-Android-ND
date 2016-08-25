@@ -1,18 +1,24 @@
 package io.github.rahulhp.dailyjournal;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewEntry extends AppCompatActivity {
+public class NewEntry extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG="NewEntry";
-
+    public static final String ANONYMOUS = "anonymous";
+    private String mUsername;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseDatabase mFirebaseDatabase;
@@ -42,6 +49,31 @@ public class NewEntry extends AppCompatActivity {
     String data_string;
     String entry_text;
     JournalEntry jEntry;
+    private GoogleApiClient mGoogleApiClient;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_items,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sign_out:
+                mFirebaseAuth.signOut();
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                mFirebaseUser = null;
+                mUsername = ANONYMOUS;
+                startActivity(new Intent(this,SignInActivity.class));
+                return true;
+            case R.id.settings:
+                Toast.makeText(getApplication(), "Settings", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +108,11 @@ public class NewEntry extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUID = mFirebaseUser.getUid();
         data_string= "user-data"+"/"+mUID+"/"+cYear+"/"+cMonth+"/"+cDay;
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+
         getCurrentSavedEntry();
     }
 
@@ -113,5 +150,10 @@ public class NewEntry extends AppCompatActivity {
         Toast.makeText(this, "Entry Saved", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this,MainActivity.class));
         Log.e(TAG, "Saving Entry: DONE" );
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
