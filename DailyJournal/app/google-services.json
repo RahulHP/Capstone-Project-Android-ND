@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "534531477259",
+    "firebase_url": "https://daily-journal-beaac.firebaseio.com",
+    "project_id": "daily-journal-beaac",
+    "storage_bucket": "daily-journal-beaac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534531477259:android:8870eae098112fbc",
+        "android_client_info": {
+          "package_name": "io.github.rahulhp.dailyjournal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534531477259-84tacktspm1p5a86qksqrjodferumrnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.rahulhp.dailyjournal",
+            "certificate_hash": "862FF050B0BAA7BE0FB4F8D238531188B6140E7E"
+          }
+        },
+        {
+          "client_id": "534531477259-ub9irg0mlnfg8ks7olb93n5aocqa963a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX3WVJMYcQuGEDPJEw0-8TYHZ5-W3_Qbs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534531477259-ub9irg0mlnfg8ks7olb93n5aocqa963a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
