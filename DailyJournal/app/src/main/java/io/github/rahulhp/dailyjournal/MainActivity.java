@@ -1,6 +1,9 @@
 package io.github.rahulhp.dailyjournal;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mUsername=ANONYMOUS;
@@ -120,8 +120,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
 
+        Log.e(TAG, "onCreate: Adding to DB");
+        ContentValues friend = new ContentValues();
+        friend.put(FriendContract.ID_COLUMN,"1231321");
+        getContentResolver().insert(FriendContract.Content_Uri,friend);
+        Log.e(TAG, "onCreate: Added to DB");
+
+        Log.e(TAG, "onCreate: Testing Cursor");
+        Cursor c = getContentResolver().query(FriendContract.Content_Uri,null,null,null,"");
+        if (c.moveToFirst()){
+            do {
+                Log.e(TAG, "onCreate: Friend"+ c.getString(c.getColumnIndex(FriendContract.ID_COLUMN)));
+            } while (c.moveToNext());
+        }
+
+
+
+
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .enableAutoManage(this, this )
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
@@ -152,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
         mFirebaseDatabaseReference.keepSynced(true);
-
 
 
         //seedJson();

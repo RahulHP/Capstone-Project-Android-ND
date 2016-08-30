@@ -35,5 +35,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.firebase:firebase-database:9.4.0'
     compile 'com.firebaseui:firebase-ui-database:0.4.0'
+    compile 'com.github.provigen:ProviGen-lib:2.0.+'
 }
 apply plugin: 'com.google.gms.google-services'

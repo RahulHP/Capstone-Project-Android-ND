@@ -17,6 +17,11 @@
         </activity>
         <activity android:name=".SignInActivity" />
         <activity android:name=".NewEntry"></activity>
+
+        <provider
+            android:name=".FriendProvider"
+            android:authorities="io.github.rahulhp.dailyjournal" >
+        </provider>
     </application>
 
 </manifest>
