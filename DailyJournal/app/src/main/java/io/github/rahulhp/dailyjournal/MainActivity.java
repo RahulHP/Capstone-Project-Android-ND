@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(new Intent(this,SignInActivity.class));
                 return true;
             case R.id.settings:
-                Toast.makeText(getApplication(), "Settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,ViewFriendsActivity.class));
+                //Toast.makeText(getApplication(), "Settings", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         String data_string = "user-data"+"/"+mUID+"/"+cYear+"/"+cMonth;
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(data_string);
-
+        /*
         mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
         mFirebaseDatabaseReference.keepSynced(true);
-
+        */
 
         //seedJson();
     }
@@ -219,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 viewHolder.entryView.setText(model.getmEntry());
             }
+
         };
 
         mEntryRecyclerView.setAdapter(mFirebaseAdapter);

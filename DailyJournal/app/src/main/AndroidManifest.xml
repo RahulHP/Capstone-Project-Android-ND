@@ -16,12 +16,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
-        <activity android:name=".NewEntry"></activity>
+        <activity android:name=".NewEntry" />
 
         <provider
             android:name=".FriendProvider"
-            android:authorities="io.github.rahulhp.dailyjournal" >
-        </provider>
+            android:authorities="io.github.rahulhp.dailyjournal" />
+
+        <activity android:name=".ViewFriendsActivity" />
+        <activity android:name=".PendingFriendActivity"></activity>
     </application>
 
 </manifest>
