@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        startActivity(new Intent(this,SearchFriends.class));
+        /*
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mUsername=ANONYMOUS;

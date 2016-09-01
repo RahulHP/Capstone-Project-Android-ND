@@ -23,7 +23,8 @@
             android:authorities="io.github.rahulhp.dailyjournal" />
 
         <activity android:name=".ViewFriendsActivity" />
-        <activity android:name=".PendingFriendActivity"></activity>
+        <activity android:name=".PendingFriendActivity" />
+        <activity android:name=".SearchFriends"></activity>
     </application>
 
 </manifest>
