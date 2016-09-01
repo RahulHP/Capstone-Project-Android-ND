@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
-        <activity android:name=".NewEntry" />
+        <activity android:name=".NewEntryActivity" />
 
         <provider
             android:name=".FriendProvider"
@@ -24,7 +24,7 @@
 
         <activity android:name=".ViewFriendsActivity" />
         <activity android:name=".PendingFriendActivity" />
-        <activity android:name=".SearchFriends"></activity>
+        <activity android:name=".SearchFriendsActivity"></activity>
     </application>
 
 </manifest>

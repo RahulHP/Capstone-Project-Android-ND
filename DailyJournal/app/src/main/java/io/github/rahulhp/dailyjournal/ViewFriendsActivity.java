@@ -27,32 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ViewFriendsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
-        GoogleApiClient.OnConnectionFailedListener{
+public class ViewFriendsActivity extends FirebaseActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    private String mUsername;
-    private String mUID;
-    public static final String ANONYMOUS = "anonymous";
-
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFirebaseDatabaseReference;
-    private GoogleApiClient mGoogleApiClient;
+
     private SimpleCursorAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friends);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUID = mFirebaseUser.getUid();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
 
         mFirebaseDatabaseReference = mFirebaseDatabase.getReference("/user-friend-requests/"+mUID+"/Accepted/");
         mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -109,33 +93,5 @@ public class ViewFriendsActivity extends AppCompatActivity implements LoaderMana
         adapter.swapCursor(null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_items,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.sign_out:
-                mFirebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mFirebaseUser = null;
-                mUsername = ANONYMOUS;
-                startActivity(new Intent(this,SignInActivity.class));
-                return true;
-            case R.id.settings:
-                Toast.makeText(getApplication(), "Settings", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

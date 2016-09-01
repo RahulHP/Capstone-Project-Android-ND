@@ -28,18 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PendingFriendActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class PendingFriendActivity extends FirebaseActivity{
 
 
-    private String mUsername;
-    private String mUID;
-    public static final String ANONYMOUS = "anonymous";
-
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFirebaseDatabaseReference;
-    private GoogleApiClient mGoogleApiClient;
+
 
     private String TAG="PEnding";
     RecyclerView mPendingView;
@@ -71,9 +64,8 @@ public class PendingFriendActivity extends AppCompatActivity implements GoogleAp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_pending_friend);
-        setUpFirebase();
+
 
         String data_string = "user-friend-requests"+"/"+mUID+"/Pending";
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(data_string);
@@ -141,20 +133,4 @@ public class PendingFriendActivity extends AppCompatActivity implements GoogleAp
         Log.e(TAG, "createRecyclerView: Doing" );
     }
 
-
-    void setUpFirebase(){
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUID = mFirebaseUser.getUid();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }
