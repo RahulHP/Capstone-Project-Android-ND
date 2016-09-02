@@ -44,6 +44,7 @@ public class FirebaseActivity  extends AppCompatActivity implements GoogleApiCli
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsername=ANONYMOUS;
         if (mFirebaseUser == null){
             startActivity(new Intent(this,SignInActivity.class));
             finish();

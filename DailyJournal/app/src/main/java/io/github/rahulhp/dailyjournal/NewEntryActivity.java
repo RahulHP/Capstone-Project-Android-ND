@@ -2,12 +2,14 @@ package io.github.rahulhp.dailyjournal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,8 +27,8 @@ public class NewEntryActivity extends FirebaseActivity{
     private static final String TAG=NewEntryActivity.class.getName();
 
 
-    EditText newEntryText;
-    TextView mCharCount;
+    TextInputEditText newEntryText;
+    TextView sharingText;
     Switch mPrivacySwitch;
     Calendar cal = Calendar.getInstance();
     int cYear = cal.get(Calendar.YEAR);
@@ -42,30 +44,21 @@ public class NewEntryActivity extends FirebaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
-
+        sharingText = (TextView) findViewById(R.id.shared_boolean_text);
         mPrivacySwitch = (Switch) findViewById(R.id.privacy_switch);
-        //mPrivacySwitch.setTextOn("Private");
-        //mPrivacySwitch.setTextOff("Public");
-
-        mCharCount = (TextView) findViewById(R.id.charCount);
-        newEntryText = (EditText) findViewById(R.id.new_entry_textbox);
-        newEntryText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-        newEntryText.addTextChangedListener(new TextWatcher() {
+        mPrivacySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mCharCount.setText(editable.toString().length()+"/20");
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    sharingText.setText("Private");
+                } else {
+                    sharingText.setText("Public");
+                }
             }
         });
+
+        newEntryText = (TextInputEditText) findViewById(R.id.new_entry_textbox);
+
         data_string= "user-data"+"/"+mUID+"/"+cYear+"/"+cMonth+"/"+cDay;
         getCurrentSavedEntry();
     }
@@ -81,6 +74,7 @@ public class NewEntryActivity extends FirebaseActivity{
                         if (jEntry!=null){
                             Log.e(TAG, "onDataChange: "+ jEntry.getmEntry());
                             newEntryText.setText(jEntry.getmEntry(), TextView.BufferType.EDITABLE);
+                            mPrivacySwitch.setChecked(jEntry.getmPrivate());
                         }
 
                     }
@@ -97,13 +91,10 @@ public class NewEntryActivity extends FirebaseActivity{
 
         Date mDate = new Date();
         entry_text = newEntryText.getText().toString();
-        JournalEntry jEntry = new JournalEntry(mDate,entry_text,Boolean.TRUE);
-        Log.e(TAG, "Saving Entry: DOING" );
+        JournalEntry jEntry = new JournalEntry(mDate,entry_text,mPrivacySwitch.isChecked());
         mFirebaseDatabase.getReference(data_string).setValue(jEntry);
-
         Toast.makeText(this, "Entry Saved", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this,MainActivity.class));
-        Log.e(TAG, "Saving Entry: DONE" );
     }
 
 }

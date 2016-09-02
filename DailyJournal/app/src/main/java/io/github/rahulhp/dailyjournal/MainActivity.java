@@ -32,9 +32,10 @@ public class MainActivity extends FirebaseActivity{
 
     public static class EntryViewHolder extends RecyclerView.ViewHolder{
         public TextView entryView;
-
+        public TextView dateView;
         public EntryViewHolder(View itemView) {
             super(itemView);
+            dateView = (TextView) itemView.findViewById(R.id.journal_entry_date);
             entryView = (TextView) itemView.findViewById(R.id.journal_entry_text);
         }
     }
@@ -59,29 +60,8 @@ public class MainActivity extends FirebaseActivity{
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        //startActivity(new Intent(this,SearchFriendsActivity.class));
-
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        mUsername=ANONYMOUS;
-
-
-
-
-
-        Log.e(TAG, "onCreate: Testing Cursor");
-        Cursor c = getContentResolver().query(FriendContract.Content_Uri,null,null,null,"");
-        if (c.moveToFirst()){
-            do {
-                Log.e(TAG, "onCreate: Friend"+ c.getString(c.getColumnIndex(FriendContract.ID_COLUMN)));
-            } while (c.moveToNext());
-        }
-
-
-
-
 
         String data_string = "user-data"+"/"+mUID+"/"+cYear+"/"+"7";
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(data_string);
@@ -89,11 +69,10 @@ public class MainActivity extends FirebaseActivity{
         mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 //Integer test = dataSnapshot.getValue(Integer.class);
                 if (!dataSnapshot.exists()){
                     Log.e(TAG, "onDataChange: No entries");
-                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                     TextView emptylist = (TextView) findViewById(R.id.empty_list_textview);
                     emptylist.setVisibility(TextView.VISIBLE);
                     Toast.makeText(getApplication(), "No Entries Present", Toast.LENGTH_SHORT).show();
@@ -108,10 +87,6 @@ public class MainActivity extends FirebaseActivity{
 
             }
         });
-        mFirebaseDatabaseReference.keepSynced(true);
-
-
-        //seedJson();
     }
 
     void newEntry(View view){
@@ -135,7 +110,10 @@ public class MainActivity extends FirebaseActivity{
 
             @Override
             protected void populateViewHolder(EntryViewHolder viewHolder, JournalEntry model, int position) {
-                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+                Calendar mDate = Calendar.getInstance();
+                mDate.setTime(model.getmDate());
+                String t = new SimpleDateFormat("dd-MMM-yy").format(mDate.getTime());
+                viewHolder.dateView.setText(t);
                 viewHolder.entryView.setText(model.getmEntry());
             }
 
@@ -143,6 +121,7 @@ public class MainActivity extends FirebaseActivity{
 
         mEntryRecyclerView.setAdapter(mFirebaseAdapter);
     }
+    /*
     void createTempData(){
         Calendar cal = Calendar.getInstance();
         int cYear = cal.get(Calendar.YEAR);
@@ -177,8 +156,8 @@ public class MainActivity extends FirebaseActivity{
         } catch (Exception e){
             Log.e(TAG, "seedJson: Oops" );
         }
-        
-    }
+
+    }*/
 
 
 }
