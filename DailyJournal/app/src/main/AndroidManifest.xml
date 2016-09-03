@@ -24,7 +24,8 @@
 
         <activity android:name=".ViewFriendsActivity" />
         <activity android:name=".PendingFriendActivity" />
-        <activity android:name=".SearchFriendsActivity"></activity>
+        <activity android:name=".SearchFriendsActivity" />
+        <activity android:name=".ViewFriendPosts"></activity>
     </application>
 
 </manifest>

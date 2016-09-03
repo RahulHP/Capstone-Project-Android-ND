@@ -1,6 +1,7 @@
 package io.github.rahulhp.dailyjournal;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ public class ViewFriendsActivity extends FirebaseActivity implements LoaderManag
     private DatabaseReference mFirebaseDatabaseReference;
 
     private SimpleCursorAdapter adapter;
+    private ListView mFriendList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +75,20 @@ public class ViewFriendsActivity extends FirebaseActivity implements LoaderManag
         };
 
         adapter = new SimpleCursorAdapter(this,R.layout.friend_entry,null,columns,ids,0);
+        mFriendList =(ListView) findViewById(R.id.friend_list);
+        mFriendList.setAdapter(adapter);
+        mFriendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cursor c = (Cursor) adapterView.getAdapter().getItem(i);
+                Log.e(TAG, "onItemClick: "+c.getString(0) );
+                String friendid = c.getString(0);
+                Intent intent = new Intent(getBaseContext(),ViewFriendPosts.class);
+                intent.putExtra("FRIEND_ID",friendid);
+                startActivity(intent);
 
-        ((ListView) findViewById(R.id.friend_list)).setAdapter(adapter);
+            }
+        });
 
         getSupportLoaderManager().initLoader(0,null,this);
     }
