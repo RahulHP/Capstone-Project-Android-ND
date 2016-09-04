@@ -58,7 +58,7 @@ public class ViewFriendsActivity extends FirebaseActivity implements LoaderManag
 
                     }
                 }
-                mFirebaseDatabaseReference.setValue(null);
+
             }
 
 

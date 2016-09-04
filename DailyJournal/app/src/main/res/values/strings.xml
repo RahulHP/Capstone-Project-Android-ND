@@ -3,4 +3,18 @@
     <string name="title_activity_view_friends">ViewFriendsActivity</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    
+
+    <string name="intent_extra_user_id" translatable="false">FRIEND_ID</string>
+    <string name="intent_extra_user_name"  translatable="false">FRIEND_NAME</string>
+
+    <string name="database_user_posts_url" translatable="false">user-data</string>
+    <string name="database_user_post_privacy_boolean" translatable="false">mPrivate</string>
+
+    <string name="no_posts_user_self" translatable="true">You have not made any posts this month. Why don\'t you create a new post right now?</string>
+    <string name="no_posts_user_friend" translatable="true">Looks like he hasn\'t shared any posts this month.</string>
+
+
+    <string name="journal_entry_date_format">dd MMM yyyy</string>
+
 </resources>

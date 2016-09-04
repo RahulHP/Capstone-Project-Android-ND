@@ -51,6 +51,7 @@ public class FirebaseActivity  extends AppCompatActivity implements GoogleApiCli
             return;
         } else {
             mUID = mFirebaseUser.getUid();
+            mUsername = mFirebaseUser.getDisplayName();
             checkNewUser();
         }
         mGoogleApiClient = new GoogleApiClient.Builder(this)
