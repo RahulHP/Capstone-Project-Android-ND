@@ -25,7 +25,17 @@
         <activity android:name=".ViewFriendsActivity" />
         <activity android:name=".PendingFriendActivity" />
         <activity android:name=".SearchFriendsActivity" />
-        <activity android:name=".ViewFriendPosts"></activity>
+        <activity android:name=".ViewFriendPosts" />
+
+        <receiver android:name=".NewEntryWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_entry_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
