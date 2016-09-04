@@ -3,7 +3,7 @@ package io.github.rahulhp.dailyjournal;
 import java.util.Date;
 
 /**
- * Created by root on 24/8/16.
+ * Created by rahulhp on 24/8/16.
  */
 public class JournalEntry {
     private Date mDate;

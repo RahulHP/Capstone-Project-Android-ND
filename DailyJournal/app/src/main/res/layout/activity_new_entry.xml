@@ -25,7 +25,8 @@
             android:maxLength="20"
             android:id="@+id/new_entry_textbox"
             android:layout_height="wrap_content"
-            android:hint="What did you do today?"/>
+            android:hint="@string/layout_entry_hint"/>
+
     </android.support.design.widget.TextInputLayout>
     <Switch
         style="@style/Base.Widget.AppCompat.CompoundButton.Switch"
@@ -37,7 +38,6 @@
         android:checked="false"
         android:layout_row="1"
         android:layout_column="1"
-
         android:layout_marginStart="40dp" />
 
     <TextView
@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_row="1"
-        android:text="YAYA"
         android:layout_column="0"
         android:id="@+id/shared_boolean_text"
         android:layout_marginStart="30dp" />
@@ -53,9 +52,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Entry"
+        android:text="@string/layout_save_entry"
         android:id="@+id/save_entry_button"
-        android:onClick="saveEntry"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_row="1"
         android:layout_column="2"/>

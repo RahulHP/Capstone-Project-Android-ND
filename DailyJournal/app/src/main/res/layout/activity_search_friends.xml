@@ -11,26 +11,23 @@
     tools:context=".SearchFriendsActivity">
 
 
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:text="ASDKFKLJJLAKD"
-                android:id="@+id/search_input_edittext"
-                android:layout_height="48dp"
-
-                android:layout_alignTop="@+id/start_search_button"
-                android:layout_toStartOf="@+id/start_search_button" />
+    <android.support.design.widget.TextInputEditText
+        android:layout_width="match_parent"
+        android:id="@+id/search_input_edittext"
+        android:layout_height="48dp"
+        android:layout_alignTop="@+id/start_search_button"
+        android:layout_toStartOf="@+id/start_search_button" />
 
 
-        <ImageButton
-
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/ic_search_black_24dp"
-            android:id="@+id/start_search_button"
-            android:onClick="StartSearch"
-            android:layout_alignParentTop="true"
-            android:layout_alignEnd="@+id/search_result_listView" />
+    <ImageButton
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_search_black_24dp"
+        android:id="@+id/start_search_button"
+        android:onClick="StartSearch"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/search_result_listView" />
 
     <ListView
         android:layout_width="match_parent"
@@ -40,7 +37,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp" />
 
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone"
+        android:id="@+id/empty_list_textview"
+        android:layout_below="@+id/search_input_edittext"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

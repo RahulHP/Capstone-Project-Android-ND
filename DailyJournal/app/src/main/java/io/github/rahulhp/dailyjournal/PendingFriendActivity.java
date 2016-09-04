@@ -1,29 +1,16 @@
 package io.github.rahulhp.dailyjournal;
 
 import android.content.ContentValues;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
@@ -34,74 +21,46 @@ public class PendingFriendActivity extends FirebaseActivity{
 
     private DatabaseReference mFirebaseDatabaseReference;
 
-
-    private String TAG="PEnding";
     RecyclerView mPendingView;
     private FirebaseRecyclerAdapter<String,PendingViewHolder > mFirebaseAdapter;
 
-
-
-    public static class PendingEntry{
-        String user_id;
-
-        public PendingEntry(){
-
-        }
-
-        public PendingEntry(String user_id){
-            this.user_id=user_id;
-        }
-    }
-
-    public static class PendingViewHolder extends RecyclerView.ViewHolder{
-        public TextView requestIdView;
-        public ImageButton acceptView;
-        public ImageButton rejectView;
-        public PendingViewHolder (View itemView) {
-            super(itemView);
-            requestIdView = (TextView) itemView.findViewById(R.id.pending_friend_id);
-            acceptView = (ImageButton) itemView.findViewById(R.id.accept_request);
-            rejectView = (ImageButton) itemView.findViewById(R.id.reject_request);
-        }
-    }
+    TextView emptyListView;
+    String emptyListString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_friend);
-        getSupportActionBar().setTitle("Friend Requests");
 
-        String data_string = "user-friend-requests"+"/"+mUID+"/Pending";
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(data_string);
-        Log.e(TAG, "onCreate: "+data_string );
+        emptyListView = (TextView) findViewById(R.id.empty_list_textview);
+        emptyListString = getString(R.string.no_pending_requests);
+        emptyListView.setText(emptyListString);
 
-        mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(getString(R.string.activity_title_pending_requests));
+
+        String queryString = getString(R.string.database_user_friends_base_url)+"/"+mUID+"/"+
+                getString(R.string.database_user_friends_pending_url);
+        mFirebaseDatabaseReference = mFirebaseDatabase.getReference(queryString);
+        mFirebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists())
-                    Log.e(TAG, "onDataChange: Nope" );
+                    emptyListView.setVisibility(View.VISIBLE);
                 else{
-                    Log.e(TAG, "onDataChange: Yup" );
+                    emptyListView.setVisibility(View.GONE);
+                    createAdapter();
                     createRecyclerView();
                 }
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-        createRecyclerView();
+
     }
 
-    void createRecyclerView(){
-        mPendingView = (RecyclerView) findViewById(R.id.pending_friend_list);
-        mPendingView.setHasFixedSize(true);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setReverseLayout(true);
-        mLinearLayoutManager.setStackFromEnd(true);
-        mPendingView.setLayoutManager(mLinearLayoutManager);
-
+    void createAdapter(){
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, PendingViewHolder>(
                 String.class,
                 R.layout.pending_friend,
@@ -110,7 +69,6 @@ public class PendingFriendActivity extends FirebaseActivity{
         ) {
             @Override
             protected void populateViewHolder(PendingViewHolder viewHolder, final String model, int position) {
-                Log.e(TAG, "populateViewHolder: "+model );
                 viewHolder.requestIdView.setText(model);
 
                 viewHolder.acceptView.setOnClickListener(new View.OnClickListener() {
@@ -121,10 +79,11 @@ public class PendingFriendActivity extends FirebaseActivity{
                         friend.put(FriendContract.ID_COLUMN,model);
                         getContentResolver().insert(FriendContract.Content_Uri,friend);
 
-                        Map<String,Object> childUpdates = new HashMap<String, Object>();
-                        childUpdates.put("/user-friend-requests/"+mUID+"/Pending/"+model,null);
-                        childUpdates.put("/user-friend-requests/"+model+"/Accepted/"+mUID,mUID);
-                        Log.e(TAG, "onClick: Updating" );
+                        Map<String,Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/"+getString(R.string.database_user_friends_base_url)+"/"+mUID+
+                                "/"+getString(R.string.database_user_friends_pending_url)+"/"+model,null);
+                        childUpdates.put("/"+getString(R.string.database_user_friends_base_url)+"/"+model+
+                                "/"+getString(R.string.database_user_friends_accepted_url)+"/"+mUID,mUID);
                         mFirebaseDatabase.getReference().updateChildren(childUpdates);
                         mFirebaseAdapter.notifyDataSetChanged();
                     }
@@ -133,17 +92,26 @@ public class PendingFriendActivity extends FirebaseActivity{
                 viewHolder.rejectView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Map<String,Object> childUpdates = new HashMap<String, Object>();
-                        childUpdates.put("/user-friend-requests/"+mUID+"/Pending/"+model,null);
+                        Map<String,Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/"+getString(R.string.database_user_friends_base_url)+"/"+mUID+
+                                "/"+getString(R.string.database_user_friends_pending_url)+"/"+model,null);
                         mFirebaseDatabase.getReference().updateChildren(childUpdates);
                         mFirebaseAdapter.notifyDataSetChanged();
                     }
                 });
             }
         };
+    }
+    void createRecyclerView(){
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mLinearLayoutManager.setReverseLayout(true);
+        mLinearLayoutManager.setStackFromEnd(true);
 
+        mPendingView = (RecyclerView) findViewById(R.id.pending_friend_list);
+        mPendingView.setHasFixedSize(true);
+        mPendingView.setLayoutManager(mLinearLayoutManager);
         mPendingView.setAdapter(mFirebaseAdapter);
-        Log.e(TAG, "createRecyclerView: Doing" );
+
     }
 
 }

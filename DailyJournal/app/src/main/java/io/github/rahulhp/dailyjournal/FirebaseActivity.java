@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -24,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by root on 1/9/16.
  */
 public class FirebaseActivity  extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
-    String TAG="FirebaseActivity";
+
     protected String mUsername;
     protected String mUID;
     public static final String ANONYMOUS = "anonymous";
@@ -61,7 +59,7 @@ public class FirebaseActivity  extends AppCompatActivity implements GoogleApiCli
     }
 
     void checkNewUser(){
-        final String user_string = "users/"+mUID;
+        final String user_string = getString(R.string.database_user_list)+"/"+mUID;
         mFirebaseDatabase.getReference(user_string).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override

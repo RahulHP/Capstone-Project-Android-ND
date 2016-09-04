@@ -1,27 +1,20 @@
 package io.github.rahulhp.dailyjournal;
 
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.AsyncTask;
-import android.speech.tts.Voice;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,17 +30,35 @@ public class SearchFriendsActivity extends FirebaseActivity {
 
 
     private ArrayAdapter<String> mUsersAdapter;
+
+    ProgressBar mProgressBar;
+    TextView emptyListView;
+    String emptyListString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_friends);
-        getSupportActionBar().setTitle("Search");
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(getString(R.string.activity_title_search));
         final String[] dummy = {
-
         };
 
-        final List<String> dummyData = new ArrayList<String>(Arrays.asList(dummy));
+        final List<String> dummyData = new ArrayList<>(Arrays.asList(dummy));
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        emptyListView = (TextView) findViewById(R.id.empty_list_textview);
+        emptyListString = getString(R.string.search_no_results_found);
+        findViewById(R.id.start_search_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText search_input_editText = (EditText) findViewById(R.id.search_input_edittext);
+                mUsersAdapter.clear();
+                new FetchUserTask().execute(search_input_editText.getText().toString());
 
+                mProgressBar.setVisibility(View.VISIBLE);
+
+            }
+        });
         mUsersAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.search_entry,
@@ -67,8 +78,10 @@ public class SearchFriendsActivity extends FirebaseActivity {
                 send_req.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getApplication(), user, Toast.LENGTH_SHORT).show();
-
+                        String queryURL = getString(R.string.database_user_friends_base_url)+"/"
+                                +user.toLowerCase()+"/"+getString(R.string.database_user_friends_pending_url)+"/"+
+                                mUID.toLowerCase();
+                        mFirebaseDatabase.getReference(queryURL).setValue(mUID);
                     }
                 });
 
@@ -81,12 +94,6 @@ public class SearchFriendsActivity extends FirebaseActivity {
 
     }
 
-
-    void StartSearch(View view){
-        EditText search_input_editText = (EditText) findViewById(R.id.search_input_edittext);
-        new FetchUserTask().execute(search_input_editText.getText().toString());
-    }
-
     public class FetchUserTask extends AsyncTask<String,Void,String[]>{
         private String searchString;
         private final String TAG = FetchUserTask.class.getSimpleName();
@@ -94,7 +101,7 @@ public class SearchFriendsActivity extends FirebaseActivity {
         private String[] getUserDataFromJson(String userJsonstr)
                 throws JSONException{
             JSONObject userJson = new JSONObject(userJsonstr);
-            ArrayList<String> usersArrayList = new ArrayList<String>();
+            ArrayList<String> usersArrayList = new ArrayList<>();
             Iterator<String> i = userJson.keys();
             while (i.hasNext()){
                 String username = i.next().toLowerCase();
@@ -113,11 +120,11 @@ public class SearchFriendsActivity extends FirebaseActivity {
 
             String forecastJsonStr = null;
             try {
-                final String databaseurl = "https://daily-journal-beaac.firebaseio.com/users.json";
+                final String databaseurl = getString(R.string.database_user_list_public_url);
                 Uri builtUri = Uri.parse(databaseurl);
                 URL url = new URL(builtUri.toString());
 
-                Log.v(TAG, "Built URI " + builtUri.toString());
+
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -125,7 +132,7 @@ public class SearchFriendsActivity extends FirebaseActivity {
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
@@ -137,7 +144,7 @@ public class SearchFriendsActivity extends FirebaseActivity {
                     // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                     // But it does make debugging a *lot* easier if you print out the completed
                     // buffer for debugging.
-                    buffer.append(line + "\n");
+                    buffer.append(line).append("\n");
                 }
 
                 if (buffer.length() == 0) {
@@ -145,7 +152,7 @@ public class SearchFriendsActivity extends FirebaseActivity {
                     return null;
                 }
                 forecastJsonStr = buffer.toString();
-                Log.v(TAG, "Forecast string: " + forecastJsonStr);
+
             } catch (IOException e) {
                 Log.e(TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
@@ -176,16 +183,19 @@ public class SearchFriendsActivity extends FirebaseActivity {
         }
 
 
-
-
         @Override
         protected void onPostExecute(String[] result) {
-            if (result != null) {
+            mProgressBar.setVisibility(View.GONE);
+            if (result != null && result.length!=0) {
+                emptyListView.setVisibility(View.GONE);
                 mUsersAdapter.clear();
                 for(String dayForecastStr : result) {
                     mUsersAdapter.add(dayForecastStr);
                 }
                 // New data is back from the server.  Hooray!
+            } else {
+                emptyListView.setText(emptyListString);
+                emptyListView.setVisibility(View.VISIBLE);
             }
         }
     }
