@@ -36,14 +36,16 @@ public class ViewFriendsActivity extends FirebaseActivity implements LoaderManag
 
     private SimpleCursorAdapter adapter;
     private ListView mFriendList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friends);
-
+        getSupportActionBar().setTitle("Friends");
 
         mFirebaseDatabaseReference = mFirebaseDatabase.getReference("/user-friend-requests/"+mUID+"/Accepted/");
-        mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot!=null){
@@ -85,6 +87,7 @@ public class ViewFriendsActivity extends FirebaseActivity implements LoaderManag
                 String friendid = c.getString(0);
                 Intent intent = new Intent(getBaseContext(),ViewFriendPosts.class);
                 intent.putExtra("FRIEND_ID",friendid);
+                intent.putExtra("FRIEND_NAME",friendid);
                 startActivity(intent);
 
             }

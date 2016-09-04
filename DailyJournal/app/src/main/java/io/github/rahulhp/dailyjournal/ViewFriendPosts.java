@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 public class ViewFriendPosts extends FirebaseActivity {
     String friendid;
+    String friendName;
     public static class EntryViewHolder extends RecyclerView.ViewHolder{
         public TextView entryView;
         public TextView dateView;
@@ -46,6 +47,8 @@ public class ViewFriendPosts extends FirebaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friend_posts);
         friendid = getIntent().getExtras().getString("FRIEND_ID");
+        friendName = getIntent().getExtras().getString("FRIEND_NAME");
+        getSupportActionBar().setTitle(friendName);
         Log.e(TAG, "onCreate: New Activity"+friendid);
 
         String data_string = "user-data"+"/"+friendid.toLowerCase()+"/"+cYear+"/"+"7";

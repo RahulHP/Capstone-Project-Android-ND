@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class SearchFriendsActivity extends FirebaseActivity {
                 TextView user_name = (TextView) convertView.findViewById(R.id.search_result);
                 user_name.setText(user);
 
-                Button send_req = (Button) convertView.findViewById(R.id.send_request);
+                ImageButton send_req = (ImageButton) convertView.findViewById(R.id.send_request);
                 send_req.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

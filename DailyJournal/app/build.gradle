@@ -37,5 +37,6 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:0.4.0'
     compile 'com.github.provigen:ProviGen-lib:2.0.+'
     compile 'com.android.support:design:24.1.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
