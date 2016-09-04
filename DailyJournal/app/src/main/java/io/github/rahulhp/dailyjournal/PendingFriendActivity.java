@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,18 +55,20 @@ public class PendingFriendActivity extends FirebaseActivity{
 
     public static class PendingViewHolder extends RecyclerView.ViewHolder{
         public TextView requestIdView;
-        public Button acceptView;
+        public ImageButton acceptView;
+        public ImageButton rejectView;
         public PendingViewHolder (View itemView) {
             super(itemView);
             requestIdView = (TextView) itemView.findViewById(R.id.pending_friend_id);
-            acceptView = (Button) itemView.findViewById(R.id.accept_request);
+            acceptView = (ImageButton) itemView.findViewById(R.id.accept_request);
+            rejectView = (ImageButton) itemView.findViewById(R.id.reject_request);
         }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_friend);
-
+        getSupportActionBar().setTitle("Friend Requests");
 
         String data_string = "user-friend-requests"+"/"+mUID+"/Pending";
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(data_string);
@@ -122,6 +125,16 @@ public class PendingFriendActivity extends FirebaseActivity{
                         childUpdates.put("/user-friend-requests/"+mUID+"/Pending/"+model,null);
                         childUpdates.put("/user-friend-requests/"+model+"/Accepted/"+mUID,mUID);
                         Log.e(TAG, "onClick: Updating" );
+                        mFirebaseDatabase.getReference().updateChildren(childUpdates);
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                viewHolder.rejectView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Map<String,Object> childUpdates = new HashMap<String, Object>();
+                        childUpdates.put("/user-friend-requests/"+mUID+"/Pending/"+model,null);
                         mFirebaseDatabase.getReference().updateChildren(childUpdates);
                         mFirebaseAdapter.notifyDataSetChanged();
                     }

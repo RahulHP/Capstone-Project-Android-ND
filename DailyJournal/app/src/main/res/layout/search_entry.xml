@@ -27,7 +27,7 @@
 
     <ImageButton
         android:layout_width="36dp"
-
+        style="@style/Widget.AppCompat.Button"
         android:layout_height="36dp"
         android:src="@drawable/ic_person_add_black_24dp"
         android:id="@+id/send_request"
