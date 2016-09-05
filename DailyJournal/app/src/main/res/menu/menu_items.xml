@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/view_entries_activity"
-        android:title="Home"/>
+        android:title="@string/activity_title_home"/>
     <item android:id="@+id/new_entry_activity"
-        android:title="New Entry"/>
+        android:title="@string/activity_title_new_entry"/>
     <item android:id="@+id/search_friends_activity"
-        android:title="Search"/>
+        android:title="@string/activity_title_search"/>
     <item android:id="@+id/view_friends_activity"
-        android:title="View Friends"/>
+        android:title="@string/activity_title_my_friends"/>
     <item android:id="@+id/friend_requests_activity"
-        android:title="View Friend Requests"/>
+        android:title="@string/activity_title_pending_requests"/>
     <item android:id="@+id/sign_out"
-        android:title="Sign Out"/>
+        android:title="@string/activity_sign_out"/>
 </menu>

@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Daily Journal</string>
-    <string name="title_activity_view_friends">ViewFriendsActivity</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    
 
     <string name="intent_extra_user_id" translatable="false">FRIEND_ID</string>
     <string name="intent_extra_user_name"  translatable="false">FRIEND_NAME</string>
@@ -16,9 +12,11 @@
     <string name="database_user_friends_accepted_url" translatable="false">Accepted</string>
     <string name="database_user_post_privacy_boolean" translatable="false">mPrivate</string>
 
-    <string name="activity_title_search">Search</string>
-    <string name="search_no_results_found">No results found. Please check your search string.</string>
-    <string name="con_d_search">Search</string>
+    <string name="activity_title_home" translatable="true">Home</string>
+
+    <string name="activity_title_search" translatable="true">Search</string>
+    <string name="search_no_results_found" translatable="true">No results found. Please check your search string.</string>
+    <string name="con_d_search" translatable="true">Search</string>
 
     <string name="activity_title_pending_requests" translatable="true">Friend Requests</string>
     <string name="no_pending_requests" translatable="true">No pending requests</string>
@@ -32,14 +30,15 @@
     <string name="con_d_create_new_entry" translatable="true">Create New Entry</string>
 
     <string name="activity_title_new_entry" translatable="true">New Entry</string>
-    <string name="new_entry_private">Private</string>
-    <string name="new_entry_public">Public</string>
-    <string name="toast_entry_saved">Entry Saved</string>
-    <string name="layout_save_entry">Save Entry</string>
-    <string name="layout_entry_hint">What did you do today?</string>
+    <string name="new_entry_private" translatable="true">Private</string>
+    <string name="new_entry_public" translatable="true">Public</string>
+    <string name="toast_entry_saved" translatable="true">Entry Saved</string>
+    <string name="layout_save_entry" translatable="true">Save Entry</string>
+    <string name="layout_entry_hint" translatable="true">What did you do today?</string>
 
-    <string name="journal_entry_date_format">dd MMM yyyy</string>
+    <string name="journal_entry_date_format" translatable="false">dd MMM yyyy</string>
 
-    <string name="activity_sign_in">Sign In</string>
-    <string name="con_d_google_sign_in">Sign in with Google</string>
+    <string name="activity_sign_in" translatable="true">Sign In</string>
+    <string name="con_d_google_sign_in" translatable="true">Sign in with Google</string>
+    <string name="activity_sign_out" translatable="true">Sign Out</string>
 </resources>

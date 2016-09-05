@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        debug {
+        release {
             keyAlias 'myKey'
             keyPassword '123456'
-            storeFile file('/home/rahulhp/store.jks')
+            storeFile file('store.jks')
             storePassword '123456'
         }
     }
@@ -22,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
