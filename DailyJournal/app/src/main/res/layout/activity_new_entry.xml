@@ -25,6 +25,7 @@
             android:maxLength="20"
             android:id="@+id/new_entry_textbox"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/layout_entry_hint"
             android:hint="@string/layout_entry_hint"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -52,6 +53,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/layout_save_entry"
         android:text="@string/layout_save_entry"
         android:id="@+id/save_entry_button"
         style="@style/Widget.AppCompat.Button.Colored"

@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import io.github.rahulhp.dailyjournal.BaseActivities.FirebaseActivity;
+import io.github.rahulhp.dailyjournal.data.FriendContract;
+
 public class ViewFriendsActivity extends FirebaseActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     DatabaseReference mFirebaseDatabaseReference;

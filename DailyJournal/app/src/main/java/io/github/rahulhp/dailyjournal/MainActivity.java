@@ -5,9 +5,10 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
 
+import io.github.rahulhp.dailyjournal.BaseActivities.EntryListActivity;
 
 
-public class MainActivity extends EntryListActivity{
+public class MainActivity extends EntryListActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

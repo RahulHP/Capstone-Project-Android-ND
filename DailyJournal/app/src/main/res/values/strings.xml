@@ -18,13 +18,18 @@
 
     <string name="activity_title_search">Search</string>
     <string name="search_no_results_found">No results found. Please check your search string.</string>
+    <string name="con_d_search">Search</string>
 
     <string name="activity_title_pending_requests" translatable="true">Friend Requests</string>
     <string name="no_pending_requests" translatable="true">No pending requests</string>
     <string name="no_posts_user_self" translatable="true">You have not made any posts this month. Why don\'t you create a new post right now?</string>
     <string name="no_posts_user_friend" translatable="true">Looks like he hasn\'t shared any posts this month.</string>
+    <string name="con_d_accept_request" translatable="true">Accept request</string>
+    <string name="con_d_reject_request" translatable="true">Reject request</string>
 
     <string name="activity_title_my_friends" translatable="true">My Friends</string>
+
+    <string name="con_d_create_new_entry" translatable="true">Create New Entry</string>
 
     <string name="activity_title_new_entry" translatable="true">New Entry</string>
     <string name="new_entry_private">Private</string>
@@ -35,4 +40,6 @@
 
     <string name="journal_entry_date_format">dd MMM yyyy</string>
 
+    <string name="activity_sign_in">Sign In</string>
+    <string name="con_d_google_sign_in">Sign in with Google</string>
 </resources>

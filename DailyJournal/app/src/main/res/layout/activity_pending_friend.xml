@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@id/empty_list_textview"
+        android:contentDescription="@string/no_pending_requests"
         android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView

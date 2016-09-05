@@ -19,7 +19,7 @@
         <activity android:name=".NewEntryActivity" />
 
         <provider
-            android:name=".FriendProvider"
+            android:name=".data.FriendProvider"
             android:authorities="io.github.rahulhp.dailyjournal" />
 
         <activity android:name=".ViewFriendsActivity" />
@@ -27,7 +27,7 @@
         <activity android:name=".SearchFriendsActivity" />
         <activity android:name=".ViewFriendPosts" />
 
-        <receiver android:name=".NewEntryWidget">
+        <receiver android:name=".widget.NewEntryWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

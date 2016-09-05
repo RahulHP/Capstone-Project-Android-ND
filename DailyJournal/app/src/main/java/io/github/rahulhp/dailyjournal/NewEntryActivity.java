@@ -17,7 +17,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewEntryActivity extends FirebaseActivity{
+import io.github.rahulhp.dailyjournal.BaseActivities.FirebaseActivity;
+import io.github.rahulhp.dailyjournal.ui.JournalEntry;
+
+public class NewEntryActivity extends FirebaseActivity {
 
     TextInputEditText newEntryText;
     TextView sharingText;
@@ -45,8 +48,10 @@ public class NewEntryActivity extends FirebaseActivity{
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
                     sharingText.setText(getString(R.string.new_entry_private));
+                    sharingText.setContentDescription(getString(R.string.new_entry_private));
                 } else {
                     sharingText.setText(getString(R.string.new_entry_public));
+                    sharingText.setContentDescription(getString(R.string.new_entry_public));
                 }
             }
         });

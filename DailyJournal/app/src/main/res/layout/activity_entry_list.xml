@@ -17,6 +17,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:id="@+id/empty_list_textview"
+        android:contentDescription="@string/no_posts_user_self"
         android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
@@ -34,6 +35,7 @@
         android:layout_height="56dp"
         android:id="@+id/new_entry"
         android:padding="@dimen/fab_margin"
+        android:contentDescription="@string/con_d_create_new_entry"
         android:src="@drawable/ic_create_black_24dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

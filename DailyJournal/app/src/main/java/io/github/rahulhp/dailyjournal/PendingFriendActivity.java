@@ -16,13 +16,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PendingFriendActivity extends FirebaseActivity{
+import io.github.rahulhp.dailyjournal.BaseActivities.FirebaseActivity;
+import io.github.rahulhp.dailyjournal.data.FriendContract;
+import io.github.rahulhp.dailyjournal.ui.PendingViewHolder;
+
+public class PendingFriendActivity extends FirebaseActivity {
 
 
     private DatabaseReference mFirebaseDatabaseReference;
 
     RecyclerView mPendingView;
-    private FirebaseRecyclerAdapter<String,PendingViewHolder > mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<String,PendingViewHolder> mFirebaseAdapter;
 
     TextView emptyListView;
     String emptyListString;
@@ -70,7 +74,9 @@ public class PendingFriendActivity extends FirebaseActivity{
             @Override
             protected void populateViewHolder(PendingViewHolder viewHolder, final String model, int position) {
                 viewHolder.requestIdView.setText(model);
+                viewHolder.requestIdView.setContentDescription(model);
 
+                viewHolder.acceptView.setContentDescription(getString(R.string.con_d_accept_request));
                 viewHolder.acceptView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -89,6 +95,7 @@ public class PendingFriendActivity extends FirebaseActivity{
                     }
                 });
 
+                viewHolder.rejectView.setContentDescription(getString(R.string.con_d_reject_request));
                 viewHolder.rejectView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

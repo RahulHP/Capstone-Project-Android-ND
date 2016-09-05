@@ -4,6 +4,8 @@ package io.github.rahulhp.dailyjournal;
 import android.os.Bundle;
 import android.view.View;
 
+import io.github.rahulhp.dailyjournal.BaseActivities.EntryListActivity;
+
 
 public class ViewFriendPosts extends EntryListActivity {
 

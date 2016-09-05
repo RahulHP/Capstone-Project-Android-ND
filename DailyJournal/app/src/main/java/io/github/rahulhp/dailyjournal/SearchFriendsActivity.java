@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import io.github.rahulhp.dailyjournal.BaseActivities.FirebaseActivity;
+
 public class SearchFriendsActivity extends FirebaseActivity {
 
 
